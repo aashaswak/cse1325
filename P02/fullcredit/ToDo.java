@@ -1,3 +1,4 @@
+//Full credit 
 import java.util.Scanner;
 class Item
 {
