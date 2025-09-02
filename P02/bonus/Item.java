@@ -12,10 +12,11 @@ public class Item
     public boolean isPriority(int priority)
     {
         return (this.priority==priority)?true:false;
-    }
+    
 @Override
 public String toString()
 {
     return priority+" "+task;
+}
 }
 }
