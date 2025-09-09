@@ -9,7 +9,7 @@
 import java.util.Scanner;
 import java.util.Random;
 
-public class FlashCard {
+public class FlashCards {
     private static Scanner scanner = new Scanner(System.in);
     private static Random random = new Random();
 
@@ -53,10 +53,26 @@ public class FlashCard {
  
         // Write your main program here! See P03_Requirements.pdf for details.
     Card[] deck=loadDeck();  
-
+    System.out.println("FLASH CARDS");
+    System.out.println("===========");
     System.out.println("Vocabulary terms:");
+
      for(int i=0;i<numCards;i++){
         System.out.println("* "+deck[i].getTerm());
+     }
+     String UserChoice="";
+     while(!(UserChoice.toUpperCase().equals("Q"))){
+        int RandomNumber=random.nextInt(numCards);
+        System.out.println(deck[RandomNumber]);
+        
+        UserChoice=scanner.nextLine();
+
+       if (deck[RandomNumber].attempt(UserChoice)) {
+    System.out.println("Correct!");
+} else {
+    System.out.println("No, the term is " + deck[RandomNumber].getTerm());
+}
+
      }
 
 
