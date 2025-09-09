@@ -17,4 +17,29 @@ public class TestCard
 
         }
         
-       
+        if(!(objecct.attempt("CAT")))
+        {
+            System.err.println("FAIL: our attempt isnt case insensitive");
+
+        }
+    
+        try
+        {
+            Card objecct2=new Card("", "RajuRastogi");
+            System.err.println("FAIL: Empty Constructor String");
+        }
+        catch(Exception e)
+        {
+        }
+        try
+        {
+            Card objecct3=new Card(null, "NarayanDai");
+            System.err.println("FAIL: null constructor");
+        }
+        catch(Exception e)
+        {
+        }
+
+
+    }
+}
