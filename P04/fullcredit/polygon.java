@@ -23,8 +23,8 @@ public class Polygon {
 
     private static double lineLength(Point a,Point b)
     {
-        int x=a.getX()-b.getY();
-        int y=a.getY()-b.getX();
+        double x=a.getX()-b.getY();
+        double y=a.getY()-b.getX();
         return Math.sqrt(a*a+b*b);
     }
 
@@ -34,5 +34,19 @@ public class Polygon {
         {
             throw new RuntimeException("Polygons required 3+ sides!");
         }
+        else
+        {
+        double sum=0;
+        for (int i = 0; i < numSides - 1; i++) 
+        {
+            sum += lineLength(points[i], points[i + 1]);
+        }
+    
+        sum += lineLength(points[numSides - 1], points[0]);
+    
+        return sum;
+        }
     }
-}
+    
+    }
+
