@@ -23,9 +23,9 @@ public class Polygon {
 
     private static double lineLength(Point a,Point b)
     {
-        double x=a.getX()-b.getY();
-        double y=a.getY()-b.getX();
-        return Math.sqrt(x*x+y*y);
+        double x=a.getX()-b.getX();
+        double y=a.getY()-b.getY();
+        return Math.sqrt(x*x + y*y);
     }
 
     public double perimeter()
@@ -47,6 +47,20 @@ public class Polygon {
         return sum;
         }
     }
-
+    @Override
+    public String toString(){
+            String s = "Polygon[";
+            for (int counter = 0; counter < numSides; counter++)
+            {
+                if (counter != 0){
+                    s = s + ", " + points[counter];
+                    
+                }
+                else {
+                    s = s + points[counter];
+                }
+            }
+            return s + "] has the perimeter of " + perimeter();
     }
+}
 
