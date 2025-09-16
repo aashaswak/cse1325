@@ -25,7 +25,7 @@ public class Polygon {
     {
         double x=a.getX()-b.getY();
         double y=a.getY()-b.getX();
-        return Math.sqrt(a*a+b*b);
+        return Math.sqrt(x*x+y*y);
     }
 
     public double perimeter()
@@ -47,6 +47,6 @@ public class Polygon {
         return sum;
         }
     }
-    
+
     }
 
