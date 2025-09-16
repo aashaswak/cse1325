@@ -24,14 +24,20 @@ public class point
     @override
     public boolean equals(Object O )
     {
-        if(this==O)
-        {
-            return true;
-        }
-        if()
+      if (o == this) return true;
+      if (o == null || o.getClass() != getClass()) return false;
+      Point p = (Point) o;
+      retun (p.x,x)==0 && (p.y,y)==0;
+      
     }
-}
+    @Override
+    public int hashCode() {
+        return Object.hash(x, y);
+    }
 
-public static void main(){
+    @Override
+    public String toString() {
+    return "(" + x + ", " + y + ")";
+}
 
 }

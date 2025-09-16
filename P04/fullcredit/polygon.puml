@@ -14,4 +14,3 @@ class polygon
     + toString() : String <<override>>
     - lineLength(p1 : Point, p2 : Point) : double
 }
- class test polygon
