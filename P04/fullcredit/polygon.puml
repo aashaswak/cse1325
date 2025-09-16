@@ -3,7 +3,8 @@ set separator none
 skinparam classAttributeIconSize 0
 hide circle
 
-class polygon {
+class polygon 
+{
     +MAZ_SIDES: int<<final>>
     -numSides:int
     -points:Point[]
@@ -13,3 +14,4 @@ class polygon {
     + toString() : String <<override>>
     - lineLength(p1 : Point, p2 : Point) : double
 }
+ class test polygon
