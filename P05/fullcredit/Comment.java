@@ -68,18 +68,6 @@ public class Comment
                 result=result+i+")"+replies.get(i).author + "\n";
             }
         }
+        return result;
     }
-
-    public String getText() {
-        return text;
-    }
-
-    public Person getAuthor() {
-        return author;
-    }
-
-    public ArrayList<Comment> getReplies() {
-        return replies;
-    }
-    return result;
 }

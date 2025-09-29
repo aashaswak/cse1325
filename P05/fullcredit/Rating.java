@@ -1,9 +1,13 @@
-package P05.fullcredit;
 
 public class Rating {
-    private int stars;
-    private Comment review;
+    private final int stars;
+    private final Comment review;
 
-    
+    public Rating(int stars,Comment review)
+    {
+        
+    }
+
+
     
 }
