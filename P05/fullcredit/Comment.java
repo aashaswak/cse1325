@@ -60,6 +60,26 @@ public class Comment
         {
             result=result+"in reply to"+inReplyTo.author;
         }
-        if(inReplyTo!="")
+        if(!replies.isEmpty())
+        {
+            result=result+"\n";
+            for(int i=0;i<replies.size();i++)
+            {
+                result=result+i+")"+replies.get(i).author + "\n";
+            }
+        }
     }
+
+    public String getText() {
+        return text;
+    }
+
+    public Person getAuthor() {
+        return author;
+    }
+
+    public ArrayList<Comment> getReplies() {
+        return replies;
+    }
+    return result;
 }
