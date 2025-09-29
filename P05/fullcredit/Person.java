@@ -29,7 +29,7 @@ public class Person
         if(this==o)return true;
         if(o==null||getClass()!=o.getClass())return false;
         Person p=(Person)o;
-        return p.name=name && p.email=email;
+        return name.equals(p.name) && email.equals(p.email);
     }
     @Override
     public int hashCode()
