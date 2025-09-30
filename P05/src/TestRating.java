@@ -2,7 +2,6 @@ public class TestRating
 {
     public static void main(String args[])
     {
-        //Test Vector 1:
         for(int i = 1; i <= 5; i++)
         {
             Rating ratingObj = new Rating(i, null);
@@ -10,7 +9,6 @@ public class TestRating
             {
                 System.err.println("FAIL: getStars() expected " + i + " but got " + ratingObj.getStars());
             }
-            //for toString()
             String stars = "";
             for (int j = 0; j < i; j++)
             { 
@@ -26,7 +24,6 @@ public class TestRating
             }
         }
         
-        //Test Vector 2:
         Person reviewer = new Person("Raul", "raul@aol.com");
         Comment remark = new Comment("Bad review", reviewer, null);
         Rating ratingCheck = new Rating(3, remark);
