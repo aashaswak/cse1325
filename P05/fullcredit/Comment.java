@@ -55,19 +55,24 @@ public class Comment
 
     public String toString()
     {
-        String result="Comment by"+author;
+        StringBuilder result = new StringBuilder("");
+        result.append("Comment by");
+        result.append(author.toString());
         if(inReplyTo!=null)
         {
-            result=result+"in reply to"+inReplyTo.author;
+            //result=result+"in reply to"+inReplyTo.author;
+            result.append(" in reply to ").append(inReplyTo.author);
         }
         if(!replies.isEmpty())
         {
-            result=result+"\n";
+            result.append("\nReplies: ");
             for(int i=0;i<replies.size();i++)
             {
-                result=result+i+")"+replies.get(i).author + "\n";
+                //result=result+i+")"+replies.get(i).author + "\n";
+                result.append(i).append(")").append(replies.get(i).author).append(" ");
             }
         }
-        return result;
+        result.append("\n").append(text);
+        return result.toString();
     }
 }
