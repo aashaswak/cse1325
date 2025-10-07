@@ -1,11 +1,12 @@
 public class Polygon {
-    public static final int MAX_SLIDES=12;
+    public static final int MAX_SIDES=12;
 
     private int numSides=0;
-    private Point[] points=new Point[MAX_SLIDES];
-    int counter=0;
+    private Point[] points=new Point[MAX_SIDES];
     public void addPoint(Point p)
     {
+        int counter=0;
+
         for(int i=0;i<numSides;i++)
         {
             if(points[i].equals(p))
@@ -14,7 +15,7 @@ public class Polygon {
             }
         }
         if(counter>0) throw new IllegalArgumentException("Duplicate point:"+p);
-        if (numSides >= MAX_SLIDES) {
+        if (numSides >= MAX_SIDES) {
             throw new RuntimeException("Polygon is full");
         }
         points[numSides++] = p;

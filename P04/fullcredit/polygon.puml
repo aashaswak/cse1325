@@ -5,12 +5,11 @@ hide circle
 
 class polygon 
 {
-    +MAZ_SIDES: int<<final>>
+    +{static}MAX_SIDES: int<<final>>
     -numSides:int
     -points:Point[]
-    + addPoint(point : Point) : void
-    + addPoint(point : Point) : void
+    + addPoint(point : Point)
     + perimeter() : double
     + toString() : String <<override>>
-    - lineLength(p1 : Point, p2 : Point) : double
+    -{static}lineLength(p1 : Point, p2 : Point) : double
 }
