@@ -1,6 +1,3 @@
-public class DemoStudent {
-    
-}
 import java.util.Scanner;
 
 public class DemoStudent {

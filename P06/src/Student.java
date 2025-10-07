@@ -1,35 +1,30 @@
 import java.util.ArrayList;
 
-import Course.toString;
-
-public class Student extends Person
-{
-    private static int nextStudentID=0;
+public class Student extends Person {
+    private static int nextStudentID = 0;
 
     private final int studentID;
+    private final ArrayList<Course> courses;
 
-    private final ArrayList <course> courses;
-
-    public student (String name,String email)
-    {
-        super(name,email);
-        this.studentID = nextStudentID++;
-        this.courses=new Arraylist<>();
+    public Student(String name, String email) {
+        super(name, email);               // must be first
+        this.studentID = nextStudentID++; // assign then increment
+        this.courses = new ArrayList<>();
     }
 
-    public void addCourse(Course c)
-    {
-        courses.add(c);
+    public int getStudentID() { return studentID; }
+
+    public void addCourse(Course course) {
+        if (course == null) throw new IllegalArgumentException("Course cannot be null");
+        courses.add(course);
     }
 
-    public Course[] getCourses()
-    {
+    public Course[] getCourses() {
         return courses.toArray(new Course[0]);
     }
-    @Override
-    public String toString()
-    {
-        return super.toString() + "\b, #"+studentID+")";
-    }
 
+    @Override
+    public String toString() {
+        return super.toString().replace(")", ", #" + studentID + ")");
+    }
 }

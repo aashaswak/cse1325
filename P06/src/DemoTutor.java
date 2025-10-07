@@ -1,4 +1,3 @@
-
 import java.util.Scanner;
 
 public class DemoTutor {
@@ -33,5 +32,3 @@ public class DemoTutor {
         }
     }
 }
-DemoTutor.java
-Displaying Rateable.java.
