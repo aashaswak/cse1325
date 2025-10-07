@@ -19,7 +19,6 @@ public class Student extends Person
 
     public void addCourse(Course c)
     {
-        if(c==null)throw new IllegalArgumentException("Course cannot be null");
         courses.add(c);
     }
 
@@ -28,10 +27,9 @@ public class Student extends Person
         return courses.toArray(new Course[0]);
     }
     @Override
-    public toString()
+    public String toString()
     {
-        String rep=super.toString();
-        return rep.replace(")",",#"+studentID+")");
+        return super.toString() + "\b, #"+studentID+")";
     }
 
 }

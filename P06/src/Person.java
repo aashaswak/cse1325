@@ -1,9 +1,11 @@
-
 import java.util.Objects;
-public class Person 
+import java.util.Arrays;
+import java.util.ArrayList;
+public class Person implements Rateable
 {
-    private final String name;
-    private final String email;
+    protected String name;
+    protected String email;
+    private ArrayList<Rating> ratings=new ArrayList<>();
 
     public Person(String name,String email)
     {
@@ -41,7 +43,30 @@ public class Person
     {
         return name+"("+email+")";
     }
+     @Override
+    public void addRating(Rating rating)
+    {
+        ratings.add(rating);
+    }
+    @Override
+    public double getAverageRating()
+    {
+        int sum=0; 
+        double avg=0;
+        for (int i=0; i<ratings.size();i++)
+        {
+            sum+=ratings.get(i).getStars();
+        }
+        average = sum/ratings.size();
+        return average;
+    }
+    @Override
+    public Rating[] getRatings()
+    {
+        Rating[] ratingarray = ratings.toArray(new Rating[0]);
+        return ratingarray;
+    }
 
-    
 }
+    
 
