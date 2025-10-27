@@ -1,3 +1,4 @@
+package rating;
 public class Rating {
     private final int stars;
     private final Comment review;

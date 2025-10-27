@@ -1,3 +1,10 @@
+// Source code is decompiled from a .class file using FernFlower decompiler (from Intellij IDEA).
+package people;
+import rating.Rateable;
+import rating.Rating;
+import java.util.Objects;
+import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.Arrays;
 import java.util.ArrayList;

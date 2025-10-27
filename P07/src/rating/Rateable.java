@@ -1,3 +1,4 @@
+package rating;
 public interface Rateable
 {
     public void addRating(Rating rating);

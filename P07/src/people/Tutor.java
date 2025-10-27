@@ -1,3 +1,5 @@
+package people;
+import session.Course;
 public class Tutor extends Person
 {
     private final String bio;
