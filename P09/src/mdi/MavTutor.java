@@ -4,10 +4,9 @@ import java.util.Collections;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 import java.io.File;
 import java.io.PrintStream;
-
+import java.util.Scanner;
 import menu.Menu;
 import menu.MenuItem;
 import people.Student;
@@ -20,20 +19,20 @@ public class MavTutor {
     private List<Student> students = new ArrayList<>();
     private List<Tutor> tutors = new ArrayList<>();
     private List<Session> sessions = new ArrayList<>();
+
     private Menu menu;
     private List<?> view;
 
-    // NEW FEATURES
     private File file = null;
-    private boolean dirty = false;
+    private Boolean dirty = false;
 
     public MavTutor() {
         this.menu = new Menu();
         this.view = courses;
 
-        showSplash();
+        this.menu = new Menu();
+        this.view = courses;
 
-        // Menu setup
         menu.addMenuItem(new MenuItem("Quit", () -> quit()));
         menu.addMenuItem(new MenuItem("Create Course", () -> newCourse()));
         menu.addMenuItem(new MenuItem("View Courses", () -> selectView(courses)));
@@ -41,12 +40,11 @@ public class MavTutor {
         menu.addMenuItem(new MenuItem("View Students", () -> selectView(students)));
         menu.addMenuItem(new MenuItem("Create Tutor", () -> newTutor()));
         menu.addMenuItem(new MenuItem("View Tutors", () -> selectView(tutors)));
-        menu.addMenuItem(new MenuItem("Create Session", () -> newSession()));
         menu.addMenuItem(new MenuItem("View Sessions", () -> selectView(sessions)));
+        menu.addMenuItem(new MenuItem("Create Session", () -> newSession()));
 
-        // NEW MENU ITEMS
-        menu.addMenuItem(new MenuItem("New (Clear Data)", () -> newData()));
-        menu.addMenuItem(new MenuItem("Open File", () -> open()));
+        menu.addMenuItem(new MenuItem("New", () -> newz()));
+        menu.addMenuItem(new MenuItem("Open", () -> open()));
         menu.addMenuItem(new MenuItem("Save", () -> save()));
         menu.addMenuItem(new MenuItem("Save As", () -> saveAs()));
 
@@ -88,26 +86,48 @@ public class MavTutor {
     }
 
     public static void main(String[] args) {
+        boolean skipSplash = args.length > 0 && args[0].equalsIgnoreCase("nosplash");
+        if (!skipSplash) {
+            showSplash();
+        }
         new MavTutor();
     }
 
     private void quit() {
-        if (!safeToDiscardData()) {
-            menu.result.append("Quit canceled.\n");
-            return;
-        }
         menu.result = null;
     }
 
     private void selectView(List<?> list) {
         this.view = list;
-        System.out.println(this.toString());
+        showCurrentViewInResult();
     }
 
-    // =======================
-    //  FILE HANDLING METHODS
-    // =======================
-    private void newData() {
+    private String buildCurrentViewText() {
+        StringBuilder sb = new StringBuilder();
+
+        if (view == courses) {
+            sb.append("Courses:\n");
+            for (Course c : courses) sb.append("• ").append(c).append("\n");
+        } else if (view == students) {
+            sb.append("Students:\n");
+            for (Student s : students) sb.append("• ").append(s).append("\n");
+        } else if (view == tutors) {
+            sb.append("Tutors:\n");
+            for (Tutor t : tutors) sb.append("• ").append(t).append("\n");
+        } else if (view == sessions) {
+            sb.append("Sessions:\n");
+            for (Session sess : sessions) sb.append("• ").append(sess).append("\n");
+        }
+
+        return sb.toString();
+    }
+
+    private void showCurrentViewInResult() {
+        menu.result.setLength(0);
+        menu.result.append(buildCurrentViewText());
+    }
+
+    private void newz() {
         if (!safeToDiscardData()) {
             menu.result.append("New operation canceled.\n");
             return;
@@ -118,7 +138,7 @@ public class MavTutor {
         sessions.clear();
         file = null;
         dirty = false;
-        menu.result.append("All data cleared.\n");
+        menu.result.append("Cleared all data.\n");
     }
 
     private void saveAs() {
@@ -128,11 +148,7 @@ public class MavTutor {
 
     private void save() {
         if (file == null) {
-            file = Menu.selectFile("Select a file to save:", null, null);
-        }
-        if (file == null) {
-            menu.result.append("Save canceled.\n");
-            return;
+            file = Menu.selectFile("Select the file to save", null, null);
         }
         try (PrintStream out = new PrintStream(file)) {
             out.println(courses.size());
@@ -142,51 +158,49 @@ public class MavTutor {
             out.println(tutors.size());
             for (Tutor t : tutors) t.save(out);
             out.println(sessions.size());
-            for (Session s : sessions) s.save(out);
-            menu.result.append("Saved successfully to ").append(file.getName()).append("\n");
+            for (Session sess : sessions) sess.save(out);
+
+            menu.result.append("Saved successfully\n");
             dirty = false;
         } catch (Exception e) {
-            menu.result.append("Error saving file: ").append(e.getMessage()).append("\n");
+            menu.result.append("Error saving file: " + e.getMessage());
         }
     }
 
     private void open() {
-        if (!safeToDiscardData()) {
-            menu.result.append("Open operation canceled.\n");
-            return;
-        }
-        file = Menu.selectFile("Select a file to open:", null, null);
-        if (file == null) {
-            menu.result.append("Open canceled.\n");
-            return;
-        }
-        try (Scanner in = new Scanner(file)) {
-            courses.clear();
-            students.clear();
-            tutors.clear();
-            sessions.clear();
+        file = Menu.selectFile("Select the file to open", null, null);
+        if (file != null) {
+            try (Scanner in = new Scanner(file)) {
+                courses.clear();
+                students.clear();
+                tutors.clear();
+                sessions.clear();
 
-            int cCount = Integer.parseInt(in.nextLine().trim());
-            for (int i = 0; i < cCount; i++) courses.add(new Course(in));
-            int sCount = Integer.parseInt(in.nextLine().trim());
-            for (int i = 0; i < sCount; i++) students.add(new Student(in));
-            int tCount = Integer.parseInt(in.nextLine().trim());
-            for (int i = 0; i < tCount; i++) tutors.add(new Tutor(in));
-            int sessCount = Integer.parseInt(in.nextLine().trim());
-            for (int i = 0; i < sessCount; i++) sessions.add(new Session(in));
+                int courseCount = Integer.parseInt(in.nextLine().trim());
+                for (int i = 0; i < courseCount; ++i) courses.add(new Course(in));
 
-            dirty = false;
-            menu.result.append("File loaded successfully: ").append(file.getName()).append("\n");
-        } catch (Exception e) {
-            menu.result.append("Error loading file: ").append(e.getMessage()).append("\n");
-            newData();
+                int studentCount = Integer.parseInt(in.nextLine().trim());
+                for (int i = 0; i < studentCount; ++i) students.add(new Student(in));
+
+                int tutorCount = Integer.parseInt(in.nextLine().trim());
+                for (int i = 0; i < tutorCount; ++i) tutors.add(new Tutor(in));
+
+                int sessionCount = Integer.parseInt(in.nextLine().trim());
+                for (int i = 0; i < sessionCount; ++i) sessions.add(new Session(in));
+
+                menu.result.append("File loaded successfully\n");
+                dirty = false;
+            } catch (Exception e) {
+                menu.result.append("Error loading file: " + e.getMessage() + "\n");
+                newz();
+            }
         }
     }
 
     private boolean safeToDiscardData() {
         if (!dirty) return true;
         while (true) {
-            String ans = Menu.getString("You have unsaved changes. (S)ave, (D)iscard, (A)bort? ");
+            String ans = Menu.getString("You have unsaved changes. Select among (S)ave, (D)iscard, (A)bort? ");
             if (ans == null) return false;
             ans = ans.trim().toUpperCase();
             if (ans.startsWith("S")) {
@@ -203,9 +217,6 @@ public class MavTutor {
         }
     }
 
-    // =======================
-    //  CREATE METHODS
-    // =======================
     private void newCourse() {
         String dept = Menu.getString("Department: ");
         int number = Menu.getInt("Course number: ");
@@ -213,8 +224,8 @@ public class MavTutor {
 
         if (!courses.contains(course)) {
             courses.add(course);
-            menu.result.append("Course added: ").append(course).append("\n");
             dirty = true;
+            menu.result.append("Course added: ").append(course).append("\n");
         } else {
             menu.result.append("Course already exists: ").append(course).append("\n");
         }
@@ -241,8 +252,8 @@ public class MavTutor {
 
         if (!tutors.contains(tutor)) {
             tutors.add(tutor);
-            menu.result.append("Tutor added: ").append(tutor).append("\n");
             dirty = true;
+            menu.result.append("Tutor added: ").append(tutor).append("\n");
         } else {
             menu.result.append("Tutor already exists: ").append(tutor).append("\n");
         }
@@ -281,8 +292,8 @@ public class MavTutor {
 
         if (!students.contains(newStudent)) {
             students.add(newStudent);
-            menu.result.append("Student added: ").append(newStudent).append("\n");
             dirty = true;
+            menu.result.append("Student added: ").append(newStudent).append("\n");
         } else {
             menu.result.append("Student already exists: ").append(newStudent).append("\n");
         }
@@ -334,7 +345,7 @@ public class MavTutor {
         }
 
         sessions.add(session);
-        menu.result.append("Session created: ").append(session).append("\n");
         dirty = true;
+        menu.result.append("Session created: ").append(session).append("\n");
     }
 }

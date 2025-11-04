@@ -7,8 +7,8 @@ public class Student extends Person {
     private final ArrayList<Course> courses;
 
     public Student(String name, String email) {
-        super(name, email);               // must be first
-        this.studentID = nextStudentID++; // assign then increment
+        super(name, email);               
+        this.studentID = nextStudentID++; 
         this.courses = new ArrayList<>();
     }
 

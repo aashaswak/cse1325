@@ -1,4 +1,3 @@
-// Source code is decompiled from a .class file using FernFlower decompiler (from Intellij IDEA).
 package people;
 import rating.Rateable;
 import rating.Rating;
@@ -87,7 +86,8 @@ public class Person implements Rateable
             in.nextLine().trim(),
             in.nextLine().trim()
         );
+    }   
+}
 
-}
-}
+
 

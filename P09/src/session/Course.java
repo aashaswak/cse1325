@@ -1,7 +1,8 @@
 package session;
 
 import java.util.Objects;
-
+import java.util.Scanner;
+import java.io.PrintStream;
 /**
  * Defines an academic course recognized by its department abbreviation and numeric identifier.
  *
@@ -78,5 +79,17 @@ public class Course
     public String toString()
     {
         return dept + number;
+    }
+public Course(Scanner in){
+        this(
+            in.nextLine().trim(),
+            Integer.parseInt(in.nextLine().trim())
+        );
+
+    }
+
+    public void save(PrintStream out){
+        out.println(dept);
+        out.println(number);
     }
 }

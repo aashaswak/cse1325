@@ -1,6 +1,8 @@
 package people;
 import session.Course;
 import java.util.Arrays;
+import java.util.Scanner;
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 public class Student extends Person {
@@ -30,4 +32,25 @@ public class Student extends Person {
     public String toString() {
         return super.toString().replace(")", ", #" + studentID + ")");
     }
+
+    public void save(PrintStream out){
+        super.save(out);
+        out.println(nextStudentID);
+        out.println(studentID);
+        out.println(courses.size());
+        for (Course course : courses) {
+            course.save(out);
+        }
+    }
+    public Student(Scanner in){
+        super(in);
+        nextStudentID = Integer.parseInt(in.nextLine().trim());
+        this.studentID = Integer.parseInt(in.nextLine().trim());
+        int count = Integer.parseInt(in.nextLine().trim());
+        this.courses = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            this.courses.add(new Course(in));
+        }
+    }
 }
+

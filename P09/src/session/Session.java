@@ -3,6 +3,8 @@ package session;
 import people.Tutor;
 import people.Student;
 import java.util.List;
+import java.util.Scanner;
+import java.io.PrintStream;
 import java.util.ArrayList;
 
 /**
@@ -75,6 +77,29 @@ public class Session
             sb.append("\n").append(student);
         }
         return sb.toString();
+    }
+
+     public void save(PrintStream out){
+        course.save(out);
+        dates.save(out);
+        tutor.save(out);
+
+        out.println(students.size());
+        for(Student student:students)
+        {
+            student.save(out);
+        }
+    }
+    public Session(Scanner in){
+        this.course = new Course(in);
+        this.dates = new DateRange(in);
+        this.tutor = new Tutor(in);
+
+        int studentCount = Integer.parseInt(in.nextLine().trim());
+        this.students = new ArrayList<>();
+        for(int i=0;i<studentCount;i++){
+            this.students.add(new Student(in));
+        }
     }
 
     private Course course;

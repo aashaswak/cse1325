@@ -1,5 +1,8 @@
 package session;
 
+import java.io.PrintStream;
+import java.util.Scanner;
+
 /**
  * Represents a span of time on a specific date, mainly used for defining
  * the schedule of a tutoring session or other time-based activities.
@@ -98,5 +101,19 @@ public class DateRange
     public String toString()
     {
         return date + " " + startTime + " - " + endTime + " (" + duration() + " minutes)";
+    }
+
+     public DateRange(Scanner in){
+
+        this(
+            in.nextLine().trim(),
+            in.nextLine().trim(),
+            in.nextLine().trim()
+        );
+    }
+    public void save(PrintStream out){
+        out.println(date);
+        out.println(startTime);
+        out.println(endTime);
     }
 }
