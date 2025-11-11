@@ -1,6 +1,5 @@
 package mdi;
 
-import java.util.Collections;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -9,8 +8,10 @@ import java.io.PrintStream;
 import java.util.Scanner;
 import menu.Menu;
 import menu.MenuItem;
+import people.Person;
 import people.Student;
 import people.Tutor;
+import rating.Comment;
 import rating.Rating;
 import session.Session;
 import session.Course;
@@ -31,8 +32,8 @@ public class MavTutor {
         this.menu = new Menu();
         this.view = courses;
 
-        this.menu = new Menu();
-        this.view = courses;
+        // Initialize result in case Menu doesn't do it
+        if (menu.result == null) menu.result = new StringBuilder();
 
         menu.addMenuItem(new MenuItem("Quit", () -> quit()));
         menu.addMenuItem(new MenuItem("Create Course", () -> newCourse()));
@@ -44,7 +45,7 @@ public class MavTutor {
         menu.addMenuItem(new MenuItem("View Sessions", () -> selectView(sessions)));
         menu.addMenuItem(new MenuItem("Create Session", () -> newSession()));
 
-        menu.addMenuItem(new MenuItem("New", () -> newz()));
+        menu.addMenuItem(new MenuItem("New", () -> newData()));
         menu.addMenuItem(new MenuItem("Open", () -> open()));
         menu.addMenuItem(new MenuItem("Save", () -> save()));
         menu.addMenuItem(new MenuItem("Save As", () -> saveAs()));
@@ -52,7 +53,6 @@ public class MavTutor {
         menu.addMenuItem(new MenuItem("Review Student", () -> review(students)));
         menu.addMenuItem(new MenuItem("Review Tutor", () -> review(tutors)));
         menu.addMenuItem(new MenuItem("Review Session", () -> review(sessions)));
-
 
         menu.run();
     }
@@ -85,7 +85,7 @@ public class MavTutor {
             "         Welcome to MavTutor!              \n";
         System.out.println(splash);
         try {
-            Thread.sleep(3000); 
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
@@ -100,6 +100,7 @@ public class MavTutor {
     }
 
     private void quit() {
+        menu.result.append("Exiting MavTutor...\n");
         menu.result = null;
     }
 
@@ -133,7 +134,7 @@ public class MavTutor {
         menu.result.append(buildCurrentViewText());
     }
 
-    private void newz() {
+    private void newData() {
         if (!safeToDiscardData()) {
             menu.result.append("New operation canceled.\n");
             return;
@@ -156,6 +157,11 @@ public class MavTutor {
         if (file == null) {
             file = Menu.selectFile("Select the file to save", null, null);
         }
+        if (file == null) {
+            menu.result.append("Save canceled.\n");
+            return;
+        }
+
         try (PrintStream out = new PrintStream(file)) {
             out.println(courses.size());
             for (Course c : courses) c.save(out);
@@ -169,7 +175,7 @@ public class MavTutor {
             menu.result.append("Saved successfully\n");
             dirty = false;
         } catch (Exception e) {
-            menu.result.append("Error saving file: " + e.getMessage());
+            menu.result.append("Error saving file: " + e.getMessage() + "\n");
         }
     }
 
@@ -198,7 +204,7 @@ public class MavTutor {
                 dirty = false;
             } catch (Exception e) {
                 menu.result.append("Error loading file: " + e.getMessage() + "\n");
-                newz();
+                newData();
             }
         }
     }
@@ -242,14 +248,19 @@ public class MavTutor {
         String tutorEmail = Menu.getString("Tutor email: ");
         int tutorSSN = Menu.getInt("Tutor SSN: ");
 
-        System.out.println("\nAvailable Courses:");
+        if (courses.isEmpty()) {
+            menu.result.append("No courses available. Tutor not added.\n");
+            return;
+        }
+
+        menu.result.append("\nAvailable Courses:\n");
         for (int i = 0; i < courses.size(); i++) {
-            System.out.println(i + ". " + courses.get(i));
+            menu.result.append(i).append(". ").append(courses.get(i)).append("\n");
         }
 
         int courseIndex = Menu.getInt("Tutor's Course index: ");
         if (courseIndex < 0 || courseIndex >= courses.size()) {
-            System.out.println("Invalid course index. Tutor not added.");
+            menu.result.append("Invalid course index. Tutor not added.\n");
             return;
         }
 
@@ -269,30 +280,24 @@ public class MavTutor {
         String studentName = Menu.getString("Student name: ");
         String studentEmail = Menu.getString("Student email: ");
         Student newStudent = new Student(studentName, studentEmail);
-        String userChoice = "";
 
         if (courses.isEmpty()) {
             menu.result.append("No courses available in the database.\n");
             return;
         }
 
+        String userChoice = "";
         while (!userChoice.equalsIgnoreCase("Q")) {
             Integer selectedIndex = Menu.selectItemFromList("Select a course: ", courses);
-
-            if (selectedIndex == null || selectedIndex < 0 || selectedIndex >= courses.size()) {
-                System.out.println("Invalid course selection.\n");
-                return;
-            }
+            if (selectedIndex == null || selectedIndex < 0 || selectedIndex >= courses.size()) break;
 
             Course selectedCourse = courses.get(selectedIndex);
-
             if (Arrays.asList(newStudent.getCourses()).contains(selectedCourse)) {
-                System.out.println("Course already added for this student.\n");
+                menu.result.append("Course already added for this student.\n");
             } else {
                 newStudent.addCourse(selectedCourse);
-                System.out.println("Added course: " + selectedCourse);
+                menu.result.append("Added course: ").append(selectedCourse).append("\n");
             }
-
             userChoice = Menu.getString("Add another course? (Enter 'Q' to quit): ");
         }
 
@@ -356,45 +361,99 @@ public class MavTutor {
     }
 
     private <T extends rating.Rateable> void review(List<T> list) {
-    if (list.isEmpty()) {
-        menu.result.append("Nothing to review.\n");
-        return;
+        if (list.isEmpty()) {
+            menu.result.append("Nothing to review.\n");
+            return;
+        }
+        Integer idx = Menu.selectItemFromList("Select an item to review: ", list);
+        if (idx == null || idx < 0 || idx >= list.size()) return;
+        T item = list.get(idx);
+
+        double avg = item.getAverageRating();
+        menu.result.append("Average rating: ");
+        if (Double.isNaN(avg)) menu.result.append("No ratings\n");
+        else menu.result.append(avg + "\n");
+
+        Object reviewer = login();
+
+        if (reviewer != null) {
+            int rating = Menu.getInt("Enter a rating (1-5): ");
+            String comment = Menu.getString("Enter a review comment: ");
+            Comment newComment = new Comment(comment, (Person) reviewer, null);
+            Rating newRating = new Rating(rating, newComment);
+            item.addRating(newRating);
+            dirty = true;
+            menu.result.append("Review added.\n");
+        }
+
+        for (Rating r : item.getRatings()) {
+            menu.result.append(r + "\n");
+        }
     }
-    Integer idx = Menu.selectItemFromList("Select an item to review: ", list);
-    if (idx == null || idx < 0 || idx >= list.size()) return;
-    T item = list.get(idx);
 
-    double avg = item.getAverageRating();
-    menu.result.append("Average rating: ");
-    if (Double.isNaN(avg)) menu.result.append("No ratings\n");
-    else menu.result.append(avg + "\n");
 
-    Object reviewer = login();
+private people.Person user = null;
 
-    if (reviewer != null) {
-        int rating = Menu.getInt("Enter a rating (1-5): ");
-        String comment = Menu.getString("Enter a review comment: ");
-        Rating newRating = new Rating(rating, reviewer.toString(), comment);
-        item.addRating(newRating);
-        menu.result.append("Review added.\n");
+private people.Person login() {
+    while (true) {
+        Integer index;
+        if (user == null) {
+            String[] items = { "Cancel login", "Login as a Tutor", "Login as a Student" };
+            index = Menu.selectItemFromArray("What do you want to do? ", items);
+            if (index == null || index == 0) {
+                break;
+            } else if (index == 1) {
+                if (tutors.isEmpty()) {
+                    System.out.println("No tutors available.");
+                    break;
+                }
+                Integer tindex = Menu.selectItemFromList("Which tutor do you want to login as? ", tutors);
+                if (tindex != null && tindex >= 0 && tindex < tutors.size()) {
+                    user = tutors.get(tindex);
+                    break;
+                }
+            } else if (index == 2) {
+                if (students.isEmpty()) {
+                    System.out.println("No students available.");
+                    break;
+                }
+                Integer sindex = Menu.selectItemFromList("Which student do you want to login as? ", students);
+                if (sindex != null && sindex >= 0 && sindex < students.size()) {
+                    user = students.get(sindex);
+                    break;
+                }
+            }
+        } else {
+            String[] items = {
+                "Continue as " + user,
+                "Login as a Tutor",
+                "Login as a Student",
+                "Log out"
+            };
+            index = Menu.selectItemFromArray("What do you want to do? ", items);
+            if (index == null) {
+                break;
+            } else if (index == 0) {
+                break;
+            } else if (index == 1) {
+                Integer tindex = Menu.selectItemFromList("Which tutor do you want to login as? ", tutors);
+                if (tindex != null && tindex >= 0 && tindex < tutors.size()) {
+                    user = tutors.get(tindex);
+                    break;
+                }
+            } else if (index == 2) {
+                Integer sindex = Menu.selectItemFromList("Which student do you want to login as? ", students);
+                if (sindex != null && sindex >= 0 && sindex < students.size()) {
+                    user = students.get(sindex);
+                    break;
+                }
+            } else if (index == 3) {
+                user = null;
+                System.out.println("Logged out");
+                break;
+            }
+        }
     }
-
-    for (Rating r : item.getRatings()) {
-        menu.result.append(r + "\n");
-    }
+    return user;
 }
-
-private Object login() {
-    String[] options = {"Log in as Student", "Log in as Tutor", "No login/anonymously"};
-    int choice = Menu.selectItemFromList("Log in as:", Arrays.asList(options));
-    if (choice == 0 && !students.isEmpty()) {
-        Integer idx = Menu.selectItemFromList("Select student:", students);
-        if (idx != null && idx >= 0 && idx < students.size()) return students.get(idx);
-    } else if (choice == 1 && !tutors.isEmpty()) {
-        Integer idx = Menu.selectItemFromList("Select tutor:", tutors);
-        if (idx != null && idx >= 0 && idx < tutors.size()) return tutors.get(idx);
-    }
-    return null;
-}
-
 }

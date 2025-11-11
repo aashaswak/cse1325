@@ -70,12 +70,13 @@ public class Session implements Rateable  {
     }
 
     @Override
-    public double getAverageRating() {
-        if (ratings.isEmpty()) return Double.NaN;
-        double total = 0;
-        for (Rating r : ratings) total += r.getScore();
-        return total / ratings.size();
-    }
+public double getAverageRating() {
+    if (ratings.isEmpty()) return Double.NaN;
+    double total = 0;
+for (Rating r : ratings) total += r.getStars(); 
+    return total / ratings.size();
+}
+
 
     @Override
     public Rating[] getRatings() {
