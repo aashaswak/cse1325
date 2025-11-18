@@ -1,4 +1,4 @@
-import qlogger.Qlogger.log;
+import qlogger.Qlogger;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -8,8 +8,8 @@ public class Primes{
 
     public Primes()
     {
-        this.primes=new Treemap<>();
-        this.maxprime=0;
+        this.primes=new TreeMap<>();
+        this.maxPrime=0;
     }
     public boolean isPrime(long number)
     {
@@ -20,12 +20,17 @@ public class Primes{
         }
         return true;
     }
-    public search(long begin,long end,int numThreads)
+    public void search(long begin,long end,int numThreads)
     {
-        findPrimes
+        findprimes(begin,end,1);
     }
 
-    public findprimes(long begin, long end, int threadID)
+    public int size()
+    {
+        return primes.size();
+    }
+
+    public void findprimes(long begin, long end, int threadID)
     {
         Qlogger.log(String.format("findprimes: thread %d searching [%d,%d)",threadID,begin,end));
         for(long i=begin;i<end;i++)
@@ -37,7 +42,7 @@ public class Primes{
         }
     }
 
-    public addPrime(long prime,int threadID)
+    public void addPrime(long prime,int threadID)
     {
         primes.put(prime,threadID);
         if(prime>maxPrime)
@@ -45,7 +50,21 @@ public class Primes{
             prime=maxPrime;
         }
     }
+@Override
+    public String toString()
+    {
+        int width=Math.max(1,Long.toString(maxPrime).length());
+        String format="%"+width+"d found by thread %d%n";
 
-    
+        StringBuilder sb=new StringBuilder();
+        for(Map.Entry<Long,Integer>entry:primes.entrySet())
+        {
+            long prime=entry.getKey();
+            int threadID=entry.getValue();
+
+            sb.append(String.format(format,prime, threadID));
+        }
+        return sb.toString();
+    }
     
 }
