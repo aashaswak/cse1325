@@ -32,17 +32,13 @@ public class Primes{
 
     public void findprimes(long begin, long end, int threadID)
     {
-        Qlogger.log(String.format("findprimes: thread %d searching [%d,%d)",threadID,begin,end));
-        for(long i=begin;i<end;i++)
-        {
-            if(isPrime(i))
-            {
-                addPrime(i,threadID);
-            }
+       Qlogger.log("Thread " + threadID + " is searching " + begin + " to " + end);
+    for (long i = begin; i < end; i++) {
+        if (isPrime(i)) addPrime(i, threadID);
         }
     }
 
-    public void addPrime(long prime,int threadID)
+    protected void addPrime(long prime,int threadID)
     {
         primes.put(prime,threadID);
         if(prime>maxPrime)
