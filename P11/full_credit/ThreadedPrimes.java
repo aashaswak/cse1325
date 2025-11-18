@@ -27,7 +27,7 @@ public class ThreadedPrimes extends Primes
             }
             catch(InterruptedException e)
             {
-                System.err.println("ABORT: " + e);
+                System.err.println("EXIT: " + e);
             }
         }
     }
