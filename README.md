@@ -1,33 +1,28 @@
-# CSE 1325 Coursework
+# CSE 1325 Coursework and MavTutor Desk
 
-This repository contains Java coursework from CSE 1325. The most complete application in the collection is **MavTutor**, a command-line tutoring session manager developed in [P10](P10/).
+This repository contains Java coursework from CSE 1325 and a practical tutoring-session planner built from the course's MavTutor domain model.
 
-## Featured project: MavTutor
+## Featured build: MavTutor Desk
 
-MavTutor organizes courses, students, tutors, and scheduled tutoring sessions. It also supports 1–5 star reviews with written comments, plus local save and load for core records.
+MavTutor Desk helps a tutoring-group organizer manage courses, tutors, students, and upcoming sessions from a browser. Add participants, schedule sessions by time and format, catch tutor schedule overlaps, mark sessions complete, and back up or restore records.
 
-- [Project overview, design notes, and build instructions](P10/README.md)
-- [MavTutor source code](P10/src/mdi/MavTutor.java)
+- [Open the app source](MavTutorApp/index.html) — download the file and open it in a browser
+- [How to use it and privacy notes](MavTutorApp/README.md)
 
-**Stack:** Java · Object-oriented design · Collections · File I/O · Apache Ant
+It runs without a server or installation and stores its data locally in the browser. It is a single-organizer utility; it does not sync data across devices.
 
-MavTutor is an academic console application. It is not a web app or production scheduling system.
+## CSE 1325 source project: MavTutor
 
-## Repository layout
+The original [P10 MavTutor](P10/) command-line app introduced the course, student, tutor, session, and review model that informed the browser planner.
 
-- `P01`–`P11`: course programming assignments
+- [P10 project notes and build instructions](P10/README.md)
+- [Original Java application](P10/src/mdi/MavTutor.java)
+
+## Coursework layout
+
+- `P01`–`P11`: programming assignments
 - `class1325`: in-class examples
-- `P10`: MavTutor application
+- `P10`: original MavTutor Java application
+- `MavTutorApp`: browser-based tutoring planner
 
-Some folders contain alternate or bonus assignment solutions. See each folder for its own source and build files.
-
-## Running MavTutor
-
-Requires a JDK and Apache Ant. From the `P10` directory:
-
-```sh
-ant compile
-java -cp target mdi.MavTutor nosplash
-```
-
-See [P10/README.md](P10/README.md) for project scope and notes.
+Some assignment folders contain alternate or bonus solutions. See each folder for its source and build files.
