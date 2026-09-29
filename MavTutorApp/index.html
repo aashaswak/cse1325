@@ -19,11 +19,11 @@
 <script>
 (()=>{'use strict';
 const KEY='mavtutor.desk.v1', blank=()=>({courses:[],students:[],tutors:[],sessions:[]});
-let db;try{db=JSON.parse(localStorage.getItem(KEY))||blank()}catch{db=blank()}
+let storageAvailable=true,db;try{db=JSON.parse(localStorage.getItem(KEY))||blank()}catch{db=blank();storageAvailable=false}
 for(const k of Object.keys(blank()))if(!Array.isArray(db[k]))db[k]=[];
 let pageName='home',filter='';
 const $=s=>document.querySelector(s), view=$('#view'), dialog=$('#dialog'), form=$('#form');
-const save=()=>localStorage.setItem(KEY,JSON.stringify(db));
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(db))}catch{storageAvailable=false;toast('Browser storage is unavailable. Export a backup before closing this page.')}};
 const uid=()=>crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2);
 const esc=x=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const toast=m=>{const n=document.createElement('div');n.className='toast';n.textContent=m;document.body.append(n);setTimeout(()=>n.remove(),2400)};
@@ -46,7 +46,7 @@ function remove(k,id){const linked=k==='courses'?db.sessions.some(s=>s.courseId=
 document.querySelectorAll('.nav button').forEach(b=>b.onclick=()=>route(b.dataset.page));$('#new-session').onclick=newSession;
 $('#backup').onclick=()=>{const a=document.createElement('a'),url=URL.createObjectURL(new Blob([JSON.stringify(db,null,2)],{type:'application/json'}));a.href=url;a.download='mavtutor-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('Backup downloaded')};
 $('#file').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{const v=JSON.parse(await f.text());if(!['courses','students','tutors','sessions'].every(k=>Array.isArray(v[k])))throw Error();if(confirm('Replace this browser’s records with the selected backup?')){db=v;save();draw();toast('Backup restored')}}catch{toast('That file is not a valid MavTutor backup')}finally{e.target.value=''}};
-draw();
+draw();if(!storageAvailable)setTimeout(()=>toast('Browser storage is unavailable. Export a backup before closing this page.'),0);
 })();
 </script>
 </body></html>
