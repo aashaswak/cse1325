@@ -33,11 +33,11 @@ public class DemoSession {
                              "\nshould be CSE1310 CSE1320 CSE1325");
             
             System.out.println("\nCreating people");
-            Tutor t1 = new Tutor("Charlie Bright", "cub6279@mavs.uta.edu", 729328190,
+            Tutor t1 = new Tutor("Charlie Bright", "cub6279@mavs.uta.edu",
                 "BSCE 2026 candidate, 2 yrs C experience", c1);
-            Tutor t2 = new Tutor("Chandra Tutorful", "cat8831@mavs.uta.edu", 882357834,
+            Tutor t2 = new Tutor("Chandra Tutorful", "cat8831@mavs.uta.edu",
                 "PhD candidate in CS, 6 yrs C and 2 yrs Java experience", c2);
-            Tutor t3 = new Tutor("Aisha GoodTutor", "alt1399@mavs.uta.edu", 382825938,
+            Tutor t3 = new Tutor("Aisha GoodTutor", "alt1399@mavs.uta.edu",
                 "Master's candidate in CpE, 8 yrs Java experience!", c3);
 
             Student s1 = new Student("Isabella Studious", "ies9120@mavs.uta.edu");
