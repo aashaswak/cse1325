@@ -246,7 +246,6 @@ public class MavTutor {
     private void newTutor() {
         String tutorName = Menu.getString("Tutor name: ");
         String tutorEmail = Menu.getString("Tutor email: ");
-        int tutorSSN = Menu.getInt("Tutor SSN: ");
 
         if (courses.isEmpty()) {
             menu.result.append("No courses available. Tutor not added.\n");
@@ -265,7 +264,7 @@ public class MavTutor {
         }
 
         Course selectedCourse = courses.get(courseIndex);
-        Tutor tutor = new Tutor(tutorName, tutorEmail, tutorSSN, "", selectedCourse);
+        Tutor tutor = new Tutor(tutorName, tutorEmail, "", selectedCourse);
 
         if (!tutors.contains(tutor)) {
             tutors.add(tutor);
