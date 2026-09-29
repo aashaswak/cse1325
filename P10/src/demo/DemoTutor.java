@@ -9,11 +9,10 @@ public class DemoTutor {
         Tutor oldTutor = null;
         while(true) {
             try {
-                System.out.println("\nDefine Tutor by entering name, email, and SSN on separate lines (blank name when done):");
+                System.out.println("\nDefine Tutor by entering name and email on separate lines (blank name when done):");
                 String name = in.nextLine();
                 if(name.isEmpty()) break;
                 String email = in.nextLine();
-                int ssn = Integer.parseInt(in.nextLine());
                 System.out.println("Define course by entering dept and number on same line:");
                 Course course = new Course(in.next(), Integer.parseInt(in.next())); in.nextLine();
                 System.out.println("Enter bio (blank line when done):");
@@ -23,7 +22,7 @@ public class DemoTutor {
                     if(line.isEmpty()) break;
                     bio += "\n" + line;
                 }
-                Tutor tutor = new Tutor(name, email, ssn, bio, course);
+                Tutor tutor = new Tutor(name, email, bio, course);
                 if(oldTutor != null && tutor.equals(oldTutor))
                     System.out.println("\n==> Same tutor as last time! <==\n");
                 oldTutor = tutor;
