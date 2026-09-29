@@ -6,6 +6,7 @@ This repository contains Java coursework from CSE 1325 and a practical tutoring-
 
 MavTutor Desk helps a tutoring-group organizer manage courses, tutors, students, and upcoming sessions from a browser. Add participants, schedule sessions by time and format, catch tutor schedule overlaps, mark sessions complete, and back up or restore records.
 
+- [Open the browser app](https://aashaswak.github.io/cse1325/) — available once GitHub Pages is enabled
 - [Open the app source](MavTutorApp/index.html) — download the file and open it in a browser
 - [How to use it and privacy notes](MavTutorApp/README.md)
 
