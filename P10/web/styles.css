@@ -1,0 +1,35 @@
+* { box-sizing: border-box; }
+:root { color: #172033; background: #f4f6f8; font: 16px/1.5 system-ui, sans-serif; }
+body { margin: 0; }
+.site-header { background: #172746; color: white; padding: 1rem max(1rem, calc((100vw - 960px) / 2)); }
+.brand { display: flex; align-items: center; gap: .75rem; margin-bottom: 1rem; }
+.brand strong, .brand small { display: block; }
+.brand small { color: #c4cfdf; font-size: .82rem; }
+.mark { display: grid; place-items: center; width: 2.5rem; height: 2.5rem; border-radius: .6rem; background: #b9ebd0; color: #173a2b; font-weight: 800; }
+nav { display: flex; flex-wrap: wrap; gap: .4rem; }
+nav a, .button { color: inherit; text-decoration: none; border-radius: .4rem; padding: .45rem .7rem; }
+nav a:hover { background: #ffffff20; }
+main { max-width: 960px; margin: 2rem auto; padding: 0 1rem; }
+h1 { margin: 0 0 1rem; font-size: 1.7rem; }
+h2 { margin-top: 0; font-size: 1.15rem; }
+h3 { margin-bottom: .4rem; }
+.panel, .stats article { background: white; border: 1px solid #dce2ea; border-radius: .6rem; padding: 1rem; margin: 1rem 0; }
+.stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: .8rem; }
+.stats small, .stats b { display: block; }
+.stats small, .muted { color: #667085; }
+.stats b { font-size: 1.7rem; }
+.form { display: grid; gap: .8rem; max-width: 520px; }
+label { display: grid; gap: .3rem; font-weight: 600; }
+input, select, textarea, button, .button { font: inherit; }
+input, select, textarea { padding: .55rem; border: 1px solid #b8c2d0; border-radius: .35rem; }
+select[multiple] { min-height: 6rem; }
+button, .button { display: inline-block; width: fit-content; border: 0; background: #3158bd; color: white; padding: .55rem .8rem; border-radius: .35rem; cursor: pointer; }
+button:hover, .button:hover { background: #23459d; }
+.danger { background: #a33a32; }
+.actions { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; }
+.actions form { margin: 0; }
+.notice { background: #eaf5ed; border: 1px solid #cde4d3; padding: .65rem .8rem; border-radius: .4rem; }
+li { margin: .3rem 0; }
+.pre { white-space: pre-line; }
+footer { margin: 2rem 0 1rem; text-align: center; color: #697586; font-size: .85rem; }
+@media (max-width: 640px) { .stats { grid-template-columns: repeat(2, 1fr); } main { margin-top: 1rem; } }
