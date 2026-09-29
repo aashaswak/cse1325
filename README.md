@@ -1,29 +1,33 @@
-# CSE 1325 Coursework and MavTutor Desk
+# CSE 1325 Coursework and MavTutor
 
-This repository contains Java coursework from CSE 1325 and a practical tutoring-session planner built from the course's MavTutor domain model.
+This repository contains programming assignments from CSE 1325 and the Java MavTutor tutoring-session manager.
 
-## Featured build: MavTutor Desk
+## MavTutor: Java app with a simple browser interface
 
-MavTutor Desk helps a tutoring-group organizer manage courses, tutors, students, and upcoming sessions from a browser. Add participants, schedule sessions by time and format, catch tutor schedule overlaps, mark sessions complete, and back up or restore records.
+The browser interface in `P10/web` uses the Java model classes in `P10/src`: courses, students, tutors, tutoring sessions, and reviews. Its interface is plain HTML and CSS; the application logic stays in Java.
 
-- [Open the browser app](https://aashaswak.github.io/cse1325/) — available once GitHub Pages is enabled
-- [Open the app source](MavTutorApp/index.html) — download the file and open it in a browser
-- [How to use it and privacy notes](MavTutorApp/README.md)
+To run it on Windows, install a JDK and Apache Ant, then double-click `P10/run-web.bat`. Open [http://127.0.0.1:8080](http://127.0.0.1:8080) in your browser. On macOS or Linux, run these commands from `P10`:
 
-It runs without a server or installation and stores its data locally in the browser. It is a single-organizer utility; it does not sync data across devices.
+```sh
+ant compile
+java --add-modules jdk.httpserver -cp target web.MavTutorWeb
+```
 
-## CSE 1325 source project: MavTutor
+The Java server binds to your own computer only. It saves data in `~/.mavtutor-web-data.txt` and supports saving, reopening, and downloading a backup. GitHub Pages cannot run Java, so the public Pages address is an HTML launch guide; the actual app runs locally with Java.
 
-The original [P10 MavTutor](P10/) command-line app introduced the course, student, tutor, session, and review model that informed the browser planner.
+- [P10 project documentation and requirements](P10/README.md)
+- [Java web server](P10/src/web/MavTutorWeb.java)
+- [Plain HTML interface](P10/web/index.html)
+- [Plain CSS](P10/web/styles.css)
+- [Original console application](P10/src/mdi/MavTutor.java)
 
-- [P10 project notes and build instructions](P10/README.md)
-- [Original Java application](P10/src/mdi/MavTutor.java)
+Tutor SSNs are not collected or stored. The original coursework data reader remains compatible with files that have the old SSN line.
 
 ## Coursework layout
 
 - `P01`–`P11`: programming assignments
 - `class1325`: in-class examples
-- `P10`: original MavTutor Java application
-- `MavTutorApp`: browser-based tutoring planner
+- `P10`: MavTutor Java application and browser interface
+- `MavTutorApp`: static launch guide for the local Java web app
 
 Some assignment folders contain alternate or bonus solutions. See each folder for its source and build files.
