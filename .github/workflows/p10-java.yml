@@ -27,3 +27,24 @@ jobs:
       - name: Compile P10
         working-directory: P10
         run: ant compile
+      - name: Smoke test browser app
+        working-directory: P10
+        run: |
+          java --add-modules jdk.httpserver -cp target web.MavTutorWeb > /tmp/mavtutor-web.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          attempt=0
+          until curl -fsS http://127.0.0.1:8080 -o /tmp/mavtutor-page.html; do
+            attempt=$((attempt + 1))
+            if [ "$attempt" -ge 20 ]; then cat /tmp/mavtutor-web.log; exit 1; fi
+            sleep 1
+          done
+          grep -q "MavTutor" /tmp/mavtutor-page.html
+          curl -fsSL -d "dept=CSE&number=1325" http://127.0.0.1:8080/course | grep -q "Course added"
+          curl -fsSL -d "name=Test+Student&email=test%40example.com&courses=0" http://127.0.0.1:8080/student | grep -q "Student added"
+          curl -fsSL -d "name=Test+Tutor&email=tutor%40example.com&course=0&bio=Peer+tutor" http://127.0.0.1:8080/tutor | grep -q "Tutor added"
+          curl -fsSL -d "course=0&tutor=0&date=2026-10-01&time=13%3A00&duration=60&students=0" http://127.0.0.1:8080/session | grep -q "Session scheduled"
+          curl -fsSL -d "type=session&target=0&authorType=student&author=0&stars=5&comment=Great+session" http://127.0.0.1:8080/review | grep -q "Review added"
+          curl -fsS "http://127.0.0.1:8080/?page=reviews" | grep -q "Great session"
+          curl -fsS http://127.0.0.1:8080/backup | grep -q "CSE"
+
