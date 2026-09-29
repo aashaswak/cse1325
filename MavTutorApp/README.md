@@ -4,6 +4,8 @@ MavTutor Desk is a small, practical tutoring-session organizer built from the co
 
 ## Try it
 
+Once GitHub Pages is enabled for this repository, the planner will open at [aashaswak.github.io/cse1325](https://aashaswak.github.io/cse1325/). Until then, download `index.html` and open it in a browser.
+
 Download `index.html` and open it in a current browser. No build step, account, or internet connection is required after you have the file. The browser must allow local storage for records to persist; the app warns you if storage is unavailable. Export a backup regularly, especially before changing browsers or devices.
 
 ## Use it
