@@ -4,7 +4,7 @@ MavTutor Desk is a small, practical tutoring-session organizer built from the co
 
 ## Try it
 
-Download `index.html` and open it in a current desktop or mobile browser. No build step, account, or internet connection is required after you have the file.
+Download `index.html` and open it in a current browser. No build step, account, or internet connection is required after you have the file. The browser must allow local storage for records to persist; the app warns you if storage is unavailable. Export a backup regularly, especially before changing browsers or devices.
 
 ## Use it
 
@@ -29,3 +29,9 @@ The app adapts MavTutor's core domain—courses, students, tutors, and scheduled
 **Skills:** JavaScript · HTML · CSS · Data modeling · Browser storage · Responsive UI
 
 **Source project:** [CSE 1325 P10 MavTutor](../P10/README.md)
+
+## LinkedIn project entry
+
+**Title:** MavTutor Desk | Peer Tutoring Session Planner  
+**Description:** Built a lightweight browser app for organizing peer tutoring. Manage course, tutor, and student directories; schedule sessions by course, tutor, time, format, and attendees; catch tutor time conflicts; and mark sessions complete. Added browser-based local storage with JSON backup and restore, plus a responsive interface that runs without a backend. The app adapts the course, student, tutor, and session model from my CSE 1325 Java coursework.  
+**Skills:** JavaScript · HTML · CSS · Data modeling · Browser storage · Responsive UI
