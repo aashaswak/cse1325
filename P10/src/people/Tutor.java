@@ -1,57 +1,60 @@
 package people;
+
 import java.io.PrintStream;
 import java.util.Scanner;
-
 import session.Course;
-public class Tutor extends Person
-{
+
+/**
+ * A tutor who supports one academic course.
+ *
+ * SSNs are not needed by the tutoring planner and are never collected or stored.
+ */
+public class Tutor extends Person {
     private final String bio;
-    private final int ssn;
     private final Course course;
 
-    public Tutor(String name, String email, int ssn, String bio, Course course)
-    {
+    public Tutor(String name, String email, String bio, Course course) {
         super(name, email);
-
-        int first = ssn / 1000000;
-        int middle = (ssn / 10000) % 100;
-        int last = ssn % 10000;
-
-        if (first < 1 || first > 999 || middle < 1 || middle > 99 || last < 1 || last > 9999)
-        {
-            throw new IllegalArgumentException("Invalid SSN format");
+        if (course == null) {
+            throw new IllegalArgumentException("Course cannot be null");
         }
-
-        this.ssn = ssn;
-        this.bio = bio;
+        this.bio = bio == null ? "" : bio;
         this.course = course;
     }
 
-    public int getSSN()
-    {
-        return ssn;
+    /**
+     * Compatibility constructor for older coursework callers. The legacy SSN
+     * argument is deliberately ignored and is never stored.
+     */
+    @Deprecated
+    public Tutor(String name, String email, int ignoredLegacySsn, String bio, Course course) {
+        this(name, email, bio, course);
     }
 
-    public Course getCourse()
-    {
+    public Course getCourse() {
         return course;
     }
 
-    public String getBio()
-    {
+    public String getBio() {
         return bio;
     }
 
-    public void save(PrintStream out){
+    @Override
+    public void save(PrintStream out) {
         super.save(out);
-        out.println(ssn);
         out.println(bio);
         course.save(out);
     }
-    public Tutor(Scanner in){
+
+    public Tutor(Scanner in) {
         super(in);
-        this.ssn = Integer.parseInt(in.nextLine().trim());
-        this.bio = in.nextLine().trim();
+        String nextLine = in.nextLine().trim();
+        // Read older coursework files that wrote an SSN before the bio,
+        // without keeping or exposing that value in memory.
+        if (nextLine.matches("\\d{8,9}")) {
+            nextLine = in.nextLine().trim();
+        }
+        this.bio = nextLine;
         this.course = new Course(in);
-    }   
+    }
 }
