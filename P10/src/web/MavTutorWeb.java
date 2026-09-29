@@ -130,6 +130,7 @@ public final class MavTutorWeb {
                 redirect(exchange, "overview", "Opened " + dataFile.getFileName() + ".");
             }
             case "/new" -> {
+                if (!"NEW".equals(required(form, "confirm"))) throw new IllegalArgumentException("Type NEW to confirm clearing the data set.");
                 courses.clear(); students.clear(); tutors.clear(); sessions.clear();
                 save();
                 redirect(exchange, "overview", "Started a new data set.");
@@ -247,8 +248,9 @@ public final class MavTutorWeb {
 
     private void appendReviews(StringBuilder html, String heading, List<? extends Rateable> items) {
         html.append("<h3>").append(heading).append("</h3><ul>");
+        int index = 0;
         for (Rateable item : items) {
-            html.append("<li>").append(esc(item.toString())).append(" — average ")
+            html.append("<li><code>").append(index++).append("</code> ").append(esc(item.toString())).append(" — average ")
                     .append(item.getAverageRating() == 0 ? "No ratings" : String.format("%.1f / 5", item.getAverageRating()));
             for (Rating rating : item.getRatings()) html.append("<p>").append(esc(rating.toString())).append(" ")
                     .append(esc(rating.getReview().toString())).append("</p>");
