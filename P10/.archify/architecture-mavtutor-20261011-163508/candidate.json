@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "MavTutor | Application Architecture",
+    "output": ".archify/architecture-mavtutor-20261011-163508/mavtutor-architecture.html",
+    "quality_profile": "showcase",
+    "locale": "en",
+    "repository": {
+      "url": "https://github.com/aashaswauta/cse1325.git",
+      "provider": "github",
+      "link_mode": "web",
+      "revision": "9fcb7813a488416a6df63bf322c03dbc2ddabf5f"
+    }
+  },
+  "components": [
+    {
+      "id": "local_user", "type": "external", "label": "Local user", "sublabel": "Creates and reviews tutoring records", "pos": [40, 330], "size": [160, 68],
+      "sources": [{"path": "P10/web/index.html", "line": 11, "end_line": 25}, {"path": "P10/src/mdi/MavTutor.java", "line": 38, "end_line": 55}]
+    },
+    {
+      "id": "browser_ui", "type": "frontend", "label": "Browser interface", "sublabel": "HTML forms and pages", "pos": [260, 135], "size": [170, 68],
+      "sources": [{"path": "P10/web/index.html", "line": 5, "end_line": 26}, {"path": "P10/src/web/MavTutorWeb.java", "line": 141, "end_line": 154}]
+    },
+    {
+      "id": "web_server", "type": "backend", "label": "Local HTTP server", "sublabel": "Java HttpServer on 127.0.0.1", "pos": [520, 135], "size": [190, 68],
+      "sources": [{"path": "P10/src/web/MavTutorWeb.java", "line": 42, "end_line": 67}]
+    },
+    {
+      "id": "web_file", "type": "database", "label": "Web data file", "sublabel": "~/.mavtutor-web-data.txt", "pos": [860, 135], "size": [190, 68],
+      "sources": [{"path": "P10/src/web/MavTutorWeb.java", "line": 40}, {"path": "P10/src/web/MavTutorWeb.java", "line": 280, "end_line": 302}]
+    },
+    {
+      "id": "domain_model", "type": "backend", "label": "Shared Java model", "sublabel": "Courses, people, sessions, reviews", "pos": [760, 360], "size": [215, 68],
+      "sources": [{"path": "P10/src/web/MavTutorWeb.java", "line": 32, "end_line": 39}, {"path": "P10/src/mdi/MavTutor.java", "line": 20, "end_line": 23}, {"path": "P10/src/session/Session.java", "line": 12}]
+    },
+    {
+      "id": "console_ui", "type": "frontend", "label": "Console menu", "sublabel": "Interactive Java CLI", "pos": [260, 535], "size": [170, 68],
+      "sources": [{"path": "P10/src/mdi/MavTutor.java", "line": 38, "end_line": 55}, {"path": "P10/src/mdi/MavTutor.java", "line": 94, "end_line": 102}]
+    },
+    {
+      "id": "console_file", "type": "database", "label": "Chosen data file", "sublabel": "Console save and open", "pos": [520, 535], "size": [190, 68],
+      "sources": [{"path": "P10/src/mdi/MavTutor.java", "line": 156, "end_line": 201}]
+    }
+  ],
+  "connections": [
+    {"id": "user_browser", "from": "local_user", "to": "browser_ui", "label": "uses pages"},
+    {"id": "browser_server", "from": "browser_ui", "to": "web_server", "label": "HTTP GET / POST", "variant": "emphasis"},
+    {"id": "server_model", "from": "web_server", "to": "domain_model", "label": "creates and updates"},
+    {"id": "server_file", "from": "web_server", "to": "web_file", "label": "reads / writes"},
+    {"id": "user_console", "from": "local_user", "to": "console_ui", "label": "selects commands"},
+    {"id": "console_model", "from": "console_ui", "to": "domain_model", "label": "creates and updates"},
+    {"id": "console_file_write", "from": "console_ui", "to": "console_file", "label": "saves / opens"}
+  ],
+  "cards": [
+    {"dot": "cyan", "title": "Two ways to use MavTutor", "items": ["Browser forms reach a Java server bound to 127.0.0.1", "The console menu runs the same domain classes"]},
+    {"dot": "amber", "title": "Local data", "items": ["The browser interface autosaves course, student, tutor, and session records", "The console interface saves to a file selected by the user", "Current file formats do not persist review history"]}
+  ]
+}

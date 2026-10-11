@@ -13,6 +13,12 @@ MavTutor is a Java application for organizing tutoring activity around universit
 - Create a new data set, open and save a local data file, and use Save As.
 - Warn before replacing unsaved data.
 
+## Architecture
+
+![MavTutor architecture: browser and console interfaces share the Java model and save to local files](docs/mavtutor-architecture.png)
+
+MavTutor has two local interfaces. The browser sends HTTP requests to a Java server bound to `127.0.0.1`; the console uses an interactive menu. Both use the course, people, session, and rating classes. Each interface writes its own local data file. The [interactive architecture diagram](.archify/architecture-mavtutor-20261011-163508/mavtutor-architecture.html) includes links to the source lines behind each component; download the HTML file to explore it in a browser.
+
 ## Design
 
 The project separates the model into Java packages:
