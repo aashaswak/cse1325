@@ -52,8 +52,6 @@ Omit `nosplash` to show the startup banner. For the browser version, open `http:
 
 This is a learning project, not a production scheduling or identity system. Reviews are kept in memory during a run; the current save/load format persists core course, student, tutor, and session records, not the review history. Tutor SSNs are not collected or stored. The `Tutor` reader can still open older project data files by skipping the legacy SSN line. The browser interface intentionally listens on the local computer only; it has no authentication and should not be exposed directly to the public internet.
 
-## LinkedIn project entry
-
 **Title:** MavTutor — Java Tutoring Session Manager  
 **Associated with:** CSE 1325 coursework  
 **Description:** Built a Java command-line application to organize tutoring courses, students, tutors, and scheduled sessions. Added course and participant management, session scheduling, 1–5 star reviews with written comments, and local save/load workflows. Structured the code into model packages and applied object-oriented programming, interfaces, collections, validation, and file I/O.
